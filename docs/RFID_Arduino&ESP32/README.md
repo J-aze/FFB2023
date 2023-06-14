@@ -1,4 +1,4 @@
-# Schéma avec RFID cablé sur ESP32
+# Schéma avec module RFID cablé sur ESP32
 ![SCHEMA](RFID_bb.png)
 (schéma avec zoom sans perte disponible sur le fichier [RFID_bb.pdf](RFID_bb.pdf)).
 
