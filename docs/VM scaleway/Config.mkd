@@ -1,0 +1,108 @@
+## VM scaleway compte rendu 1 
+### Helec bastien
+
+----
+
+## Sommaire
+1. [Introductions](#Introduction)
+2.
+
+
+## 1. Introduction
+    
+#### 1.1 Rappel du projet : 
+Ce projet permet de compter le nombre de personnes present durant le festival du fantastique ainsi qu'obtenir les stands qui attire le plus de monde pour s'améliorer l'année suivante. Pour ce projet nous utiliserons un systeme de carte RFID et une plateforme de liaison LoRaWAN.
+
+
+#### 1.2 L'objectif : 
+
+La VM scaleway va nous permettre de stocker les données récoltées et de les traiter pour obtenir des statistiques, ainsi que promouvoir l'utilisation des cartes avec l'ajout de ticket de tombola pour les personnes qui utilisent les cartes RFID.
+
+----
+## 2. Configuration des utilisateurs 
+La VM etait deja mise en place il faut maintenant la configuré de sorte a ce que les differents membres du projet puissent y acceder et y travailler dessus. 
+
+IP de la VM : 51.158.107.83 
+
+creation des utilisateurs :
+
+Opolka :
+![alt text](images/user1.png "user1")
+
+Simpol :
+![alt text](images/user2.png "user2")
+
+Garcia :
+![alt text](images/user3.png "user3")
+
+Helec :
+identique au user.png mais pas de capture d'ecran
+
+les utilisateurs on a present l'accès sudo 
+ 
+ 
+Pour pouvoir se connecter a la VM il faut utiliser la commande ssh : 
+```bash
+ssh <user>@<ip>
+``` 
+ 
+Les utilisateurs on ajouté chacun leurs clefs ssh dans le fichier authorized_keys de la VM pour pouvoir se connecter sans mot de passe.
+
+```bash
+ssh-copy-id <user>@<ip>
+```
+
+## 3. Installation InfluxDB et Grafana
+
+#### 3.1 InfluxDB
+
+Influx DB utilise tcp sur port 8086 pour le client server et 8088 pour RPC backup et operations de restauration 
+
+install via la doc : 
+
+https://linux.how2shout.com/how-to-install-influxdb-on-ubuntu-22-04-to-create-database/ : 
+
+
+```bash 
+ wget -q https://repos.influxdata.com/influxdata-archive_compat.key
+
+ echo '393e8779c89ac8d958f81f942f9ad7fb82a25e133faddaf92e15b16e6ac9ce4c influxdata-archive_compat.key' | sha256sum -c && cat influxdata-archive_compat.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/influxdata-archive_compat.gpg > /dev/null
+
+ echo 'deb [signed-by=/etc/apt/trusted.gpg.d/influxdata-archive_compat.gpg] https://repos.influxdata.com/debian stable main' | sudo tee /etc/apt/sources.list.d/influxdata.list
+
+ sudo apt install influxdb2
+
+ sudo systemctl start influxdb
+sudo systemctl enable influxdb
+
+sudo uwf allow 8086/tcp
+
+influx setup
+
+
+```
+La VM est a present active avec influxdb d'installer 
+ 
+#### 3.2 Grafana
+
+la doc : 
+https://computingforgeeks.com/how-to-install-grafana-on-ubuntu-linux-2/
+
+```bash 
+sudo apt install -y gnupg2 curl software-properties-common
+
+curl -fsSL https://packages.grafana.com/gpg.key|sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/grafana.gpg
+
+
+sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+
+sudo apt update
+sudo apt -y install grafana
+
+sudo systemctl enable --now grafana-server
+
+```
+
+Grafana installer sur la VM aussi. 
+
+@Copyright Helec Bastien.  
