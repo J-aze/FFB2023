@@ -83,6 +83,14 @@ influx setup
 ```
 La VM est a present active avec influxdb d'installer 
  
+
+ Ajout d'utilisateurs : 
+```Bash
+sudo influx user create --name "user" --password "password" --org-id "id_organisation"
+
+```
+
+
 #### 3.2 Grafana
 
 la doc : 
