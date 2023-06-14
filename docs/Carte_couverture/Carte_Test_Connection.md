@@ -14,8 +14,7 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
 
 ## Résultat des test de connexion
 
-- sur la position 1 qui correspons a un test dans la salle B204 nous obtenons : 
-
+- sur la position 1 qui correspons a un test dans la salle B204 nous obtenons :  
 
   pour la gateway eui-0080000000081ba1
 
@@ -32,10 +31,12 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
   - RSSI : -38 dBm
   - SNR : 6,5 dB
 
-  pas de donnée pour eui-0080000000021ba3
-  pas de donnée pour eui-0080000000085ca1
+  pas de donnée pour eui-0080000000021ba3  
+  pas de donnée pour eui-0080000000085ca1  
 
-- sur la position 2 qui correspons a un test fait dans la salle B211 nous obtenons :  
+- sur la position 2 qui correspons a un test fait dans la salle C211 nous obtenons :  
+
+  ![SpaceLab](./img/Screenshot_2023-06-14-10-45-58-272_com.google.android.apps.maps.jpg)
 
   pour la gateway eui-0080000000021b9e
 
@@ -64,6 +65,8 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
 
 - sur la position 3 qui correspons a un test fait dans l'atrium de l'IUT nous obtenons :  
 
+  ![img](./img/Screenshot_2023-06-14-10-47-06-317_com.google.android.apps.maps.jpg)
+
   pour la gateway eui-0080000000021b9e
 
   - RSSI : -89 dBm
@@ -87,6 +90,8 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
   pas de donnée pour eui-0080000000021ba3
 
 - sur la position 4 qui correspons a un test fait au milieu du parking nous obtenons :
+
+  ![img](./img/Screenshot_2023-06-14-10-49-43-913_com.google.android.apps.maps.jpg)
 
   pour la gateway eui-0080000000021ba4
 
@@ -112,6 +117,8 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
 
 - sur la position 5 qui correspons a un test fait sur le parking coté status nous obtenons :
 
+  ![img](./img/Screenshot_2023-06-14-10-50-17-699_com.google.android.apps.maps.jpg)
+
   pour la gateway eui-0080000000081ba1
 
   - RSSI : -89 dBm
@@ -135,6 +142,8 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
   pas de donnée pour eui-0080000000085ca1
 
 - sur la position 6 qui correspons a un test fait sur le parking a proximité de la médiathèque nous obtenons :
+
+  ![img](./img/Screenshot_2023-06-14-10-51-30-221_com.google.android.apps.maps.jpg)
 
   pour la gateway eui-0080000000081ba1
 
@@ -160,6 +169,8 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
 
 - sur la position 7 qui correspons a un test fait coté gauche de IUT au croissement nous obtenons :
 
+  ![img](./img/Screenshot_2023-06-14-10-53-42-836_com.google.android.apps.maps.jpg)
+
   pour la gateway eui-0080000000021ba4
 
   - RSSI : -115 dBm
@@ -183,6 +194,8 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
   pas de donnée pour eui-0080000000081ba1
 
 - sur la position 8 qui correspons a un test fait coté droit de IUT au croissement nous obtenons :
+
+  ![img](Screenshot_2023-06-14-10-54-44-159_com.google.android.apps.maps.jpg)
 
   pour la gateway eui-0080000000021ba3
 
@@ -208,6 +221,8 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
 
 - sur la position 9 qui correspons a un test fait coté droit devant IUT nous obtenons :
 
+  ![img](Screenshot_2023-06-14-10-55-42-864_com.google.android.apps.maps.jpg)
+
   pour la gateway eui-0080000000021b9e
 
   - RSSI : -79 dBm
@@ -218,9 +233,9 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
   - RSSI : -107 dBm
   - SNR : 3.8 dB
   
-  pas de donnée pour eui-0080000000081ba1
-  pas de donnée pour eui-0080000000085ca1
-  pas de donnée pour eui-0080000000021ba3
+  pas de donnée pour eui-0080000000081ba1  
+  pas de donnée pour eui-0080000000085ca1  
+  pas de donnée pour eui-0080000000021ba3  
 
 
 comment on peut le voir sur différent test on fonction de la logalisation des différent test, certaine gateway sont place placé et on ne les reçoit peut comment la gateway eui-0080000000085ca1 qui est placé dans le garage de l'IUT nous la recevons que sur les position 7,8.
