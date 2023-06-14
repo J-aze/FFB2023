@@ -9,7 +9,7 @@ def decodage_partition(payload_msg) :
     # découpe de la chaine hexa
 
     ## inition des variables
-    tailles_morceaux = [2, 8, 2,16]
+    tailles_morceaux = [2, 8, 2]
     morceaux = []
     indice_debut = 0
 
@@ -17,6 +17,9 @@ def decodage_partition(payload_msg) :
         morceau = entryid[indice_debut:indice_debut+taille]
         morceaux.append(morceau)
         indice_debut += taille
+    
+    morceau = entryid[indice_debut:indice_debut+(int(morceaux[2])*2)]
+    morceaux.append(morceau)
 
     print (morceaux)
     return morceaux
