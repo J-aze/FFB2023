@@ -1,6 +1,7 @@
 import json
-import paho.mqtt.client as mqtt
+import paho.mqtt.client as mqtt  # pip install paho.mqtt
 import decodage_partition
+import time
 
 # Callback exécutée lors de la réception d'un message MQTT
 def on_message(client, userdata, msg):
@@ -19,17 +20,31 @@ def on_message(client, userdata, msg):
         payload_msg = data["uplink_message"]["frm_payload"]
         #print (payload_msg)
 
+        timeBeforeDecode = time.time()
         decodage_partition.decodage_partition(payload_msg)
+        timeAfterDecode = time.time()
     
 
+        timeBeforeWrite = time.time()
         with open('./src/donnees.json', "a") as file:
             json.dump(data, file, indent=4)
+        timeAfterWrite = time.time()
             
         # Vous pouvez également effectuer d'autres actions avec les données ici
+
+        print(f"Temps de décodage : {timeAfterDecode - timeBeforeDecode}s, temps d'écriture : {timeAfterWrite - timeBeforeWrite}s")
+        print("Je suis maintenant prêt à recevoir de nouveaux messages !")
         
     except json.JSONDecodeError:
         # Ignorer les messages non valides (non JSON)
         pass
+
+
+# Time of tests
+timeBeforeDecode = None
+timeAfterDecode = None
+timeBeforeWrite = None
+timeAfterWrite = None
 
 # Configuration du client MQTT
 client = mqtt.Client()
@@ -41,6 +56,8 @@ client.subscribe('v3/iutb-sae204-2023@ttn/devices/rftrack-02/up')
 
 # Configuration de la callback pour la réception des messages
 client.on_message = on_message
+
+print("Je suis initialisé !")
 
 # Boucle de réception des messages MQTT
 client.loop_forever()
