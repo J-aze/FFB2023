@@ -22,7 +22,7 @@ def on_message(client, userdata, msg):
         decodage_partition.decodage_partition(payload_msg)
     
 
-        with open('donnees.json', "a") as file:
+        with open('./src/donnees.json', "a") as file:
             json.dump(data, file, indent=4)
             
         # Vous pouvez également effectuer d'autres actions avec les données ici
