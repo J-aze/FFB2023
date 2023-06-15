@@ -223,6 +223,8 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
   pas de donnée pour eui-0080000000021ba3
 
 
+comment on peut le voir sur différent test on fonction de la logalisation des différent test, certaine gateway sont place placé et on ne les reçoit peut comment la gateway eui-0080000000085ca1 qui est placé dans le garage de l'IUT nous la recevons que sur les position 7,8.
+
 ----
 
 ## Copyright &copy; Lucas Simpol Augeray 2023 - All Rights Reserved
