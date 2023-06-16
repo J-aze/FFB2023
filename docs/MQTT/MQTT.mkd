@@ -1,0 +1,111 @@
+### MQTT partie 1 
+#### header : 
+
+Le header de la trame MQTT est composé de 3 parties :
+
+Les 4 premiers bits : MQTT Control Packet type 
+Les 4 bits suivants : MQTT Control Packet flags
+Le dernier octet : MQTT Remaining Length
+
+schéma : 
+![alt text](Headerfct.png  "Header MQTT")
+
+Le MQTT Control Packet type : composé de 16 valeurs : 
+
+| Name | Type | Value | Description |
+| --- | --- | --- | --- |
+| Reserved | Reserved | 0 | Reserved |
+| CONNECT | Client to Server | 1 | Client request to connect to Server |
+| CONNACK | Server to Client | 2 | Connect acknowledgment |
+| PUBLISH | Client to Server or Server to Client | 3 | Publish message |
+| PUBACK | Client to Server or Server to Client | 4 | Publish acknowledgment (QoS 1)|
+| PUBREC | Client to Server or Server to Client | 5 | Publish received (QoS 2) (assured delivery part 1) |
+| PUBREL | Client to Server or Server to Client | 6 | Publish release (QoS 2) (assured delivery part 2) |
+| PUBCOMP | Client to Server or Server to Client | 7 | Publish complete (QoS 2) (assured delivery part 3) |
+| SUBSCRIBE | Client to Server | 8 | Client subscribe request |
+| SUBACK | Server to Client | 9 | Subscribe acknowledgment |
+| UNSUBSCRIBE | Client to Server | 10 | Unsubscribe request |
+| UNSUBACK | Server to Client | 11 | Unsubscribe acknowledgment |
+| PINGREQ | Client to Server | 12 | PING request |
+| PINGRESP | Server to Client | 13 | PING response |
+| DISCONNECT | Client to server or server to client | 14 | Client is disconnecting |
+| AUTH |  Client to server or server to client| 15 | Authentification Exchange |
+
+MQTT Control Packet flags :
+
+| Name | Fixed Header flags | bit 3| bit 2 | bit 1 | bit 0 |
+| --- | --- | --- | --- | --- | --- |
+| Reserved | R | 0 | 0 | 0 | 0 |
+| CONNECT | R | 0 | 0 | 0 | 0 |
+| CONNACK | R | 0 | 0 | 0 | 0 |
+| PUBLISH | Used in MQTT V5.0 | DUP | QoS | QoS | Retain |
+| PUBACK | R | 0 | 0 | 0 | 0 |
+| PUBREC | R | 0 | 0 | 0 | 0 |
+| PUBREL | R | 0 | 0 | 0 | 0 |
+| PUBCOMP | R | 0 | 0 | 1 | 0 |
+| SUBSCRIBE | R | 0 | 0 | 0 | 0 |   
+| SUBACK | R | 0 | 0 | 1 | 0 |
+| UNSUBSCRIBE | R | 0 | 0 | 0 | 0 |
+| UNSUBACK | R | 0 | 0 | 1 | 0 |
+| PINGREQ | R | 0 | 0 | 0 | 0 |
+| PINGRESP | R | 0 | 0 | 0 | 0 |
+| DISCONNECT | R | 0 | 0 | 0 | 0 |
+| AUTH | R | 0 | 0 | 0 | 0 |
+
+DUP: Duplicate delivery of a PUBLISH Control Packet
+QoS: Quality of Service
+Retain: Publish Retained flag
+
+MQTT Remaining Length :
+debute au 2eme octet represente la taille de la trame MQTT sans le header
+
+Champs d'ID de paquet de contrôle MQTT :
+presence ou non de l'ID de paquet de contrôle MQTT
+| Name | NO | YES|
+| --- | --- | --- |
+| CONNECT | 1 | 0 |
+| CONNACK | 1 | 0 |
+| PUBLISH | 0 | 1 (si QoS > 0) |
+| PUBACK | 0 | 1 |
+| PUBREC | 0 | 1 |
+| PUBREL | 0 | 1 |
+| PUBCOMP | 0 | 1 |
+| SUBSCRIBE | 0 | 1 |
+| SUBACK | 0 | 1 |
+| UNSUBSCRIBE | 0 | 1 |
+| UNSUBACK | 0 | 1 |
+| PINGREQ | 1 | 0 |
+| PINGRESP | 1 | 0 |
+| DISCONNECT | 1 | 0 |
+| AUTH | 1 | 0 |
+
+Chaque temps : le client envoie un nouveau SUBSCRIBE , UNSUBSCRIBE ou un PUBLISH avec un QoS > 0, il doit utiliser un ID de paquet de contrôle MQTT différent.
+
+Chaque temps : Le server envoie PUBLISH (si QoS > 0) il doit utiliser un ID de paquet de contrôle MQTT différent.
+
+L'ID devient utilisable apres que le client reçoit le packet ACK du associé.
+
+QoS 1 Publish -> PUBACK
+QoS 2 Publish -> PUBREC -> PUBREL -> PUBCOMP
+avec un code de raison de 128 ou plus 
+
+SUBSCRIBE -> SUBACK
+UNSUBSCRIBE -> UNSUBACK
+
+Les packet ID qui utilise PUBLISH , SUBSCRIBE et UNSUBSCRIBE sont un seul packet unifié et assigne des ID separer du client et du serveur dans une session.
+
+Les packets ID ne peuvent pas etre utilisé plus d'une fois par commande. 
+
+Non - Normative comment :
+
+|CLient|Server|
+| --- | --- |
+|PUBLISH PacketID=0x1234| PUBLISH PacketID=0x1234|
+|PUBACK PacketID=0x1234| PUBACK PacketID=0x1234| 
+
+Proprerties : 
+SI pas de propriété :  property length a 0
+
+####Copyright 20223 @Bastien-Helec 
+##### (la suite de MQTT est a faire (tableau des propriétés compris))
+---
