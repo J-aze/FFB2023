@@ -2,6 +2,8 @@ import json
 import paho.mqtt.client as mqtt  # pip install paho.mqtt
 import decodage_partition
 import time
+import interaction_database
+import tombola_carte
 
 # Callback exécutée lors de la réception d'un message MQTT
 def on_message(client, userdata, msg):
@@ -21,10 +23,15 @@ def on_message(client, userdata, msg):
         #print (payload_msg)
 
         timeBeforeDecode = time.time()
-        decodage_partition.decodage_partition(payload_msg)
+        message_decode = decodage_partition.decodage_partition(payload_msg)
         timeAfterDecode = time.time()
-    
+        print (message_decode)
 
+        nbr_personne = input("Combien de personne sont entrées ? ")
+
+        interaction_database.creation_profil_groupe(message_decode[3],int(nbr_personne))
+        tombola_carte.main(message_decode[3],1)
+        
         timeBeforeWrite = time.time()
         with open('./src/donnees.json', "a") as file:
             json.dump(data, file, indent=4)
@@ -39,25 +46,26 @@ def on_message(client, userdata, msg):
         # Ignorer les messages non valides (non JSON)
         pass
 
+def init():
+    # Time of tests
+    timeBeforeDecode = None
+    timeAfterDecode = None
+    timeBeforeWrite = None
+    timeAfterWrite = None
 
-# Time of tests
-timeBeforeDecode = None
-timeAfterDecode = None
-timeBeforeWrite = None
-timeAfterWrite = None
+    # Configuration du client MQTT
+    client = mqtt.Client()
+    client.username_pw_set('iutb-sae204-2023@ttn', 'NNSXS.6QCXZEARX6HYV6BOVY47EXFMV25MIWFAAFNZFTQ.4Z6ZUZGMNVVGVQY4JCTANZWY7YRHCBG4NQVRYYWLJLPK24RMLDXA')
+    client.connect('eu1.cloud.thethings.network', 1883)
 
-# Configuration du client MQTT
-client = mqtt.Client()
-client.username_pw_set('iutb-sae204-2023@ttn', 'NNSXS.6QCXZEARX6HYV6BOVY47EXFMV25MIWFAAFNZFTQ.4Z6ZUZGMNVVGVQY4JCTANZWY7YRHCBG4NQVRYYWLJLPK24RMLDXA')
-client.connect('eu1.cloud.thethings.network', 1883)
+    # Abonnement au topic
+    client.subscribe('v3/iutb-sae204-2023@ttn/devices/rftrack-02/up')
 
-# Abonnement au topic
-client.subscribe('v3/iutb-sae204-2023@ttn/devices/rftrack-02/up')
+    # Configuration de la callback pour la réception des messages
+    client.on_message = on_message
 
-# Configuration de la callback pour la réception des messages
-client.on_message = on_message
+    print("accueil")
+    print("Je suis initialisé !")
 
-print("Je suis initialisé !")
-
-# Boucle de réception des messages MQTT
-client.loop_forever()
+    # Boucle de réception des messages MQTT
+    client.loop_forever()
