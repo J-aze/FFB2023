@@ -1,6 +1,9 @@
 #include <SPI.h>
 #include <MFRC522.h>
+#include <Arduino.h>
 #include <ESP32Time.h>
+#include <math.h>
+#include <string.h>
 
 #define RST_PIN         26
 #define SS_PIN          25
@@ -10,6 +13,38 @@
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
 ESP32Time rtc(2*3600); // GMT+2
+
+// Return the Card UID
+String ReturnCardUID(MFRC522::Uid *uid	///< Pointer to Uid struct
+  ) {
+  // Dynamically set the length of the Array
+  String CardUID;
+
+	for (byte i = 0; i < uid->size; i++) {
+    CardUID += ByteToHex(uid->uidByte[i]);
+	}
+
+  return CardUID;
+}
+
+String ByteToHex(uint8_t Byte){
+  String hexStr;
+  char *hexRepresentations[] = {
+    "0", "1", "2", "3", "4", "5", "6",
+    "7", "8", "9", "A", "B", "C",
+    "D", "E", "F"
+  };
+  int t;
+
+  // The first letter
+  t = floor(Byte / 16);
+  hexStr = hexRepresentations[t];
+
+  t = Byte % 16;
+  hexStr += hexRepresentations[t];
+
+  return hexStr;
+}
 
 void setup() {
   Serial.begin(115200);                     // Initialize serial communications with the PC
@@ -21,6 +56,8 @@ void setup() {
 
     Serial.println(F("Scan PICC to see UID, SAK, type, and data blocks..."));
 }
+
+
 void loop() {
   // Reset the loop if no new card present on the sensor/reader. This saves the entire process when idle.
   if ( ! mfrc522.PICC_IsNewCardPresent()) {
@@ -36,22 +73,6 @@ void loop() {
   int currentSecond = rtc.getSecond();
   unsigned long currentMillisecond = rtc.getMillis();
 
-  // // Dump debug info about the card; PICC_HaltA() is automatically called
-  // printf("%d:%d:%d:%d : %d\n", currentHour, currentMinute, currentSecond, currentMillisecond, &(mfrc522.uid));
   printf("%d:%d:%d:%03lu", currentHour, currentMinute, currentSecond, currentMillisecond);
-  printf(" | %d \n",&(mfrc522.uid));
+  printf(" | %s \n", ReturnCardUID(&(mfrc522.uid)));
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
