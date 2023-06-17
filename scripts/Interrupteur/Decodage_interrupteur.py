@@ -1,3 +1,12 @@
+
+### //////////////////////////////////////////////////////////////////
+###
+### Librairie (pour l'instant très courte) capable d'intéragir avec
+### les payload MQTT et les décoder (en base 64)
+###
+### //////////////////////////////////////////////////////////////////
+
+
 import base64
 
 def decodage_partition(payload_msg) :
@@ -11,11 +20,10 @@ def decodage_partition(payload_msg) :
     header=entryid[0:11]
     status=entryid[11:20]
     end=entryid[20:]
-    
+
     # affichage de la trame payload décodée et découpée
     print('head',header)
     print('status',status)
     print('end',end)
-    
-    
+
     return 0
