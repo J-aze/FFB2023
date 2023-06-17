@@ -3,9 +3,10 @@
 import json
 import paho.mqtt.client as mqtt
 import Decodage_interrupteur as dec
+from rich import print as pprint
 
 # Callback appelée lors de la réception d'un message MQTT
-def on_message(client, userdata, msg, debug=False):
+def on_message(client, userdata, msg, debug: bool=False) -> None:
 
     ### TODO: Voir si ça ne pose pas de problèmes lors du callback
     if debug:
@@ -18,14 +19,16 @@ def on_message(client, userdata, msg, debug=False):
         # pprint(data)
 
         # Ecriture des données dans le fichier donnees.json
-        with open('donnees.json', "a") as file:
+        with open('./donnees.json', "at", encoding="utf-8") as file:
             json.dump(data, file, indent=4)
 
         #Parsage du payload en base 64
         payload_msg = data["uplink_message"]["frm_payload"]
+
         # Debug affichage du payload
-        # pprint (payload_msg)
-        
+        if debug:
+            pprint (payload_msg)
+
         # Voir Decodage_interrupteur.py 
         dec.decodage_partition(payload_msg)
 
