@@ -32,7 +32,20 @@ except :
 
 # generation des trames par nombres aléatoires
 status=rand.randint(0,1)
-compteur=rand.randint(0,120)
+
+if status == 1 or status == 0:
+    STatus= True;
+    time.sleep(10)
+    STatus = False
+else:
+    STatus = False
+
+while STatus == False:
+    compteur = compteur + 1
+    time.sleep(1)
+    print(compteur)
+
+
 comp=compteur
 
 # Empeche la corruption des données du status limité a 1 ou 0
