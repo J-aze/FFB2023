@@ -10,7 +10,7 @@ def connexion(INFLUXDB_URL: str, INFLUXDB_ORG: str, INFLUXDB_TOKEN: str) -> Infl
     # client -> InfluxDBClient
     # Peut faire monter une erreur
     # Si tout s'est bien passé -> retourne (client, code d'exécution)
-    client = InfluxDBClient(url=INFLUXDB_URL, token=INFLUXDB_TOKEN, org=INFLUXDB_ORG)
+    client = influxdb_client.InfluxDBClient(url=INFLUXDB_URL, token=INFLUXDB_TOKEN, org=INFLUXDB_ORG)
 
     if client.ping():
         # L'exécution s'est bien passée, on retourne le pointeur du client (InfluxDBClient)
