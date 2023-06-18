@@ -9,21 +9,28 @@ from connexion import connexion as influxConnexion
 import random as rand
 
 def generate_trame_data():
+    global time_status_updated
+
     # generation des trames par nombres aléatoires
-    status = rand.randint(0, 1)
-    compteur = 0
+    status = rand.randint(0, 5)
+    current_time = None
 
-    if status == 1 or status == 0:
-        STatus = True
-        time.sleep(10)
-        STatus = False
-    else:
-        STatus = False
+    good_status = False
 
-    while STatus == False:
-        compteur = compteur + 1
-        time.sleep(1)
-        print("Compteur", compteur)
+    while not good_status:
+        if status in [0, 1]:
+            print("Good status")
+            good_status = True
+        else:
+            status = rand.randint(0, 5)
+            print("Bad status - re-roll engaged")
+
+    current_time = datetime.datetime.now().timestamp()
+    time_taken = current_time-time_status_updated
+    time_status_updated = current_time
+
+    return status, time_taken
+
 
 
 def check_corruption_status(status):
@@ -78,11 +85,18 @@ def envoi_donnees_influxdb(Status):
         codeajout = 1
         exit(1)
 
+### Last time status updated -> Is going to be updated when called
+time_status_updated = datetime.datetime.now().timestamp() # As timestamp
 
-#  connexion à la base de données
+###  connexion à la base de données
 INFLUXDB_TOKEN = "CLES-ACCES-API"
 INFLUXDB_ORG = "ORGANISATION"
 INFLUXDB_PORT = "8086"
 INFLUXDB_URL = f"http://localhost:{INFLUXDB_PORT}"
 
 client, connexion_status = influxConnexion(INFLUXDB_URL, INFLUXDB_ORG, INFLUXDB_TOKEN)
+
+
+#### Tests
+new_status, time_to_update = generate_trame_data()
+print(f"Status updated to {new_status} in {time_to_update:.2f}s at {datetime.datetime.fromtimestamp(time_status_updated)}")
