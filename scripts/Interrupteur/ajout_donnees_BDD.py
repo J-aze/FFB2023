@@ -32,7 +32,7 @@ def generate_trame_data():
 
     return status, time_taken
 
-def check_correct_corruption_status(status_to_check):
+def check_corruption_status(status_to_check):
     if status_to_check > 1:
         print("The status is too high, please re-roll")
     elif status_to_check < 0:
@@ -52,25 +52,21 @@ def envoi_donnees_influxdb(Status, value, time_to_update):
         # Pour la valeur de status on envoie la valeur de status
         for value in range(Status):
             state = (
-                Point("Status").field("Value", status)
+                Point("Status").field("Value", value)
+            )
+            counter = (
+                Point("Compteur").field("Secondes", time_to_update)
             )
             write_api.write(bucket=bucket, org="IUTdebeziers", record=state)
-
-        # Pour la valeur de status on envoie la valeur de compteur
-        for value in range(Status):
-            counter = (
-                Point("Compteur").field("Secondes", time_to_update )
-            )
             write_api.write(bucket=bucket, org="IUTdebeziers", record=counter)
-            time.sleep(10)
-        codeajout = 0
+
         print(f"Data sent to database :  {datetime.datetime.now()}")
+        return 0
 
     # sinon codeajout=1 et affichage de Error while sending data to database
     except:
         print("Error while sending data to database")
-        codeajout = 1
-        exit(1)
+        return 1
 
 ### Last time status updated -> Is going to be updated when called
 time_status_updated = datetime.datetime.now().timestamp() # As timestamp
@@ -86,16 +82,15 @@ INFLUXDB_URL = f"http://localhost:{INFLUXDB_PORT}"
 
 client, connexion_status = influxConnexion(INFLUXDB_URL, INFLUXDB_ORG, INFLUXDB_TOKEN)
 
-
 #### Tests
 new_status, time_to_update = generate_trame_data()
 
 try:
-    while True :
+    for i in range(0, 20):
         # generate_trame_data()
-        check_corruption_status(status)
+        check_corruption_status(new_status)
         time_to_update = float(f"{time_to_update:.2f}")
-        envoi_donnees_influxdb(Status, value, time_to_update)
+        envoi_donnees_influxdb(new_status, new_status, time_to_update)
         print(f"Status updated to {new_status} in {time_to_update:.2f}s at {datetime.datetime.fromtimestamp(time_status_updated)}")
         time.sleep(3)
 except KeyboardInterrupt:
