@@ -6,11 +6,11 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 
 
 def creation_profil_groupe(ID_RFID, nbr_personne) :
-    bucket = "test_id_carte"
-    org = "IUTdebeziers"
-    token = "PC_Lucas ./Document/mdp.md"
+    bucket = "BUCKET"
+    org = "ORGANISATION"
+    token = "TOKEN"
     # Store the URL of your InfluxDB instance
-    url = "PC_Lucas ./Document/mdp.md"
+    url = "http://localhost"
 
     client = influxdb_client.InfluxDBClient(
         url=url,
@@ -31,11 +31,11 @@ def creation_profil_groupe(ID_RFID, nbr_personne) :
     write_api.write(bucket=bucket, org=org, record=p)
 
 def ajout_profil_ticket_tombola(ID_RFID, num_tiket) :
-    bucket = "test_id_tombola"
-    org = "IUTdebeziers"
-    token = "PC_Lucas ./Document/mdp.md"
+    bucket = "BUCKET"
+    org = "ORGANISATION"
+    token = "TOKEN"
     # Store the URL of your InfluxDB instance
-    url = "PC_Lucas ./Document/mdp.md"
+    url = "http://localhost"
 
 
     client = influxdb_client.InfluxDBClient(

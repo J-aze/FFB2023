@@ -195,7 +195,7 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
 
 - sur la position 8 qui correspons a un test fait coté droit de IUT au croissement nous obtenons :
 
-  ![img](Screenshot_2023-06-14-10-54-44-159_com.google.android.apps.maps.jpg)
+  ![img](./img/Screenshot_2023-06-14-10-54-44-159_com.google.android.apps.maps.jpg)
 
   pour la gateway eui-0080000000021ba3
 
@@ -221,7 +221,7 @@ afin de pourvoir savoir si la zone qui est utiliser par le festival est couverte
 
 - sur la position 9 qui correspons a un test fait coté droit devant IUT nous obtenons :
 
-  ![img](Screenshot_2023-06-14-10-55-42-864_com.google.android.apps.maps.jpg)
+  ![img](./img/Screenshot_2023-06-14-10-55-42-864_com.google.android.apps.maps.jpg)
 
   pour la gateway eui-0080000000021b9e
 
