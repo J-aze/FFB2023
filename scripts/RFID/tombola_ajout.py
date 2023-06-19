@@ -1,8 +1,26 @@
 ## import des librairies
 import interaction_database
+import lecture_des_id_tombola
 
-## iniatialisation des variables
-tab_ticket_distrubuer = [10000]
+# Recuperation des ticket de tombola déjà distrubuer
+
+ticket_distrubuer = lecture_des_id_tombola.lecture_des_id_tombola()
+
+
+tab_ticket_distrubuer = []
+ID = -1
+
+if len(ticket_distrubuer) > 0 :                
+    for ID_ticket in ticket_distrubuer :
+        ticket_analyse = ID_ticket[0]
+        if int(ticket_analyse) > 10000 :
+            dernier_ticket = ID_ticket
+    tab_ticket_distrubuer.append(dernier_ticket[0])
+    print (tab_ticket_distrubuer)
+else : 
+    tab_ticket_distrubuer.append(10000)
+
+
 
 
 def main(ID_RFID,nbr_ticket) :

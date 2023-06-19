@@ -8,9 +8,9 @@ from influxdb_client.client.write_api import SYNCHRONOUS
 def creation_profil_groupe(ID_RFID, nbr_personne) :
     bucket = "test_id_carte"
     org = "IUTdebeziers"
-    token = "ROV5K3ebi2DqoKw81uPC8lENODfcest20bfJ5mqV700Rs5J-sdsuGSlryp_JicQXSjDdjq8PLLaURQo1e-46OQ=="
+    token = "PC_Lucas ./Document/mdp.md"
     # Store the URL of your InfluxDB instance
-    url = "http://51.158.107.83:8086/"
+    url = "PC_Lucas ./Document/mdp.md"
 
     client = influxdb_client.InfluxDBClient(
         url=url,
@@ -33,9 +33,10 @@ def creation_profil_groupe(ID_RFID, nbr_personne) :
 def ajout_profil_ticket_tombola(ID_RFID, num_tiket) :
     bucket = "test_id_tombola"
     org = "IUTdebeziers"
-    token = "lrigEelfIPlUAvBIB372ylfKN1A44ecK64rSKqKZGf3ebHwBT0IJXIOrMXVQLFHx6BvhWWcZ7gNyJ8FZS8rT2A=="
+    token = "PC_Lucas ./Document/mdp.md"
     # Store the URL of your InfluxDB instance
-    url = "http://51.158.107.83:8086/"
+    url = "PC_Lucas ./Document/mdp.md"
+
 
     client = influxdb_client.InfluxDBClient(
         url=url,

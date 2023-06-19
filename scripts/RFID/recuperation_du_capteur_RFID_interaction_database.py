@@ -55,11 +55,11 @@ def init():
 
     # Configuration du client MQTT
     client = mqtt.Client()
-    client.username_pw_set('iutb-sae204-2023@ttn', 'NNSXS.6QCXZEARX6HYV6BOVY47EXFMV25MIWFAAFNZFTQ.4Z6ZUZGMNVVGVQY4JCTANZWY7YRHCBG4NQVRYYWLJLPK24RMLDXA')
-    client.connect('eu1.cloud.thethings.network', 1883)
+    client.username_pw_set("PC_Lucas ./Document/mdp.md")
+    client.connect("PC_Lucas ./Document/mdp.md", 1883)
 
     # Abonnement au topic
-    client.subscribe('v3/iutb-sae204-2023@ttn/devices/rftrack-02/up')
+    client.subscribe("PC_Lucas ./Document/mdp.md")
 
     # Configuration de la callback pour la réception des messages
     client.on_message = on_message
