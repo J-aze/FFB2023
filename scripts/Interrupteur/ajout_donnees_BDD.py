@@ -9,7 +9,9 @@ from connexion import connexion as influxConnexion
 import random as rand
 
 def generate_trame_data():
-    global time_status_updated, status
+    global time_status_updated
+    # global status
+
     # generation des trames par nombres aléatoires
     status = rand.randint(0, 5)
     current_time = None
@@ -30,34 +32,17 @@ def generate_trame_data():
 
     return status, time_taken
 
-
-
-def check_corruption_status(status):
-    global Status, value
-    # Empeche la corruption des données du status limité a 1 ou 0
-    if status == 1:
-        print('status : ',status)
-        Status = 1
-        value=status
-    elif status == 0:
-        print('status : ',status)
-        Status = 1
-        value=status
-    elif status > 1: 
-        print('status : ',status)
-        print("status error : too high")
-    elif status < 0:
-        print('status : ',status)
-        print("status error : too low")
-    else :
-        print('status : ',status)
-        print("status error : unknown error")
-        exit(1)
+def check_correct_corruption_status(status_to_check):
+    if status_to_check > 1:
+        print("The status is too high, please re-roll")
+    elif status_to_check < 0:
+        print("The status is too low, how did you do it?!")
+    else:
+        return status_to_check
 
 def envoi_donnees_influxdb(Status, value, time_to_update):
     #  on essaye d'enregistrer les données dans la base de données si ça fonctionne codeajout=0 et affichage de Data sent to database :  {datetime.datetime.now()}
     try:
-
         # initilisation de la base de données
         bucket = "Interrupteur"
 
@@ -104,12 +89,15 @@ client, connexion_status = influxConnexion(INFLUXDB_URL, INFLUXDB_ORG, INFLUXDB_
 
 #### Tests
 new_status, time_to_update = generate_trame_data()
-while True :
-    # generate_trame_data()
-    check_corruption_status(status)
-    time_to_update = float(f"{time_to_update:.2f}")
-    envoi_donnees_influxdb(Status, value, time_to_update)
-    print(f"Status updated to {new_status} in {time_to_update:.2f}s at {datetime.datetime.fromtimestamp(time_status_updated)}")
-    time.sleep(3)
 
-
+try:
+    while True :
+        # generate_trame_data()
+        check_corruption_status(status)
+        time_to_update = float(f"{time_to_update:.2f}")
+        envoi_donnees_influxdb(Status, value, time_to_update)
+        print(f"Status updated to {new_status} in {time_to_update:.2f}s at {datetime.datetime.fromtimestamp(time_status_updated)}")
+        time.sleep(3)
+except KeyboardInterrupt:
+    print("Program has stopped")
+    exit(0)
