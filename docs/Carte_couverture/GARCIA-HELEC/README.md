@@ -23,6 +23,7 @@ B204|eui-0080000000021b9e
 SPACE LAB|eui-0080000000081ba1
 RDC|eui-0080000000021ba4
 PARKING|eui-0080000000085ca1
+
 En théorie les gateway sont bien identifiées MAIS nous n'y avons pas d'accès direct donc c'est seulement une supposition avec nos mesures et en connaissant vaguement leur emplacement au sein de l'IUT.
 
 Localisation|Gateway|RSSI (dBm)|SNR|
