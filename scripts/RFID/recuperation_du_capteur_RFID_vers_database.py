@@ -55,11 +55,11 @@ def init():
 
     # Configuration du client MQTT
     client = mqtt.Client()
-    client.username_pw_set("PC_Lucas ./Document/mdp.md")
-    client.connect("PC_Lucas ./Document/mdp.md", 1883)
+    client.username_pw_set("USERNAME")
+    client.connect("http://localhost/", 1883)
 
     # Abonnement au topic
-    client.subscribe("PC_Lucas ./Document/mdp.md")
+    client.subscribe("MQTT_BROKER_DEVICE")
 
     # Configuration de la callback pour la réception des messages
     client.on_message = on_message

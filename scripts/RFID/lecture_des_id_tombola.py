@@ -2,11 +2,11 @@ import influxdb_client
 from influxdb_client.client.write_api import SYNCHRONOUS
 
 def lecture_des_id_tombola():
-    bucket = "test_id_tombola"
-    org = "IUTdebeziers"
-    token = "PC_Lucas ./Document/mdp.md"
+    bucket = "BUCKET"
+    org = "ORGANISATION"
+    token = "TOKEN"
     # Store the URL of your InfluxDB instance
-    url = "PC_Lucas ./Document/mdp.md"
+    url = "http://localhost/"
 
     client = influxdb_client.InfluxDBClient(
         url=url,
