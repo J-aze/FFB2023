@@ -1,8 +1,3 @@
-import influxdb_client,time
-from influxdb_client import InfluxDBClient, Point, WritePrecision
-#  permet de synchroniser les données
-from influxdb_client.client.write_api import SYNCHRONOUS
-import datetime
 from connexion import connexion as influxConnexion
 
 
@@ -24,65 +19,77 @@ def get_data():
     return tables, tables2
 
 
-def data_ordered(tables , tables2) :
+def data_ordered(table , second_table, debug=False):
     #  initialisation des variables
-    tab=0
+
+    x = 0 # Compteur d'itérations
+
     tab1=[]
     tab2=[]
     Status=[]
     Seconde=[]
 
 #  récupération des données de la table Status et Compteur
-    for table in tables:
-        for record in table.records:
-            #↓ debug affichage du format des données (json) ↓
-            # print(record)
-            #↑ debug affichage des données de la table Status ↑
-            # ↓ debug affichage des données de la table Compteur ↓
-            # print(record["_time"])
-            # print(record["_measurement"])
-            # print(record["_value"])
-            #↑ debug affichage des données de la table Compteur ↑
+    for element in table:
+        for record in element.records:
+            if debug:
+                print("[DEBUG](Status):", record)
+                print(f"[DEBUG](Compteur): `_time`: {record['_time']}, `_measurement`: {record['_measurement']}, `_value`: {record['_value']}")
+
             #opération pour récupérer les données de la table Status
-            status={"status":record["_measurement"], "value":record["_value"]}
+            status = {
+                "status": record["_measurement"],
+                "value":record["_value"]
+            }
             Status.append(status)
-            time1=record["_time"].replace(microsecond=0)
-            time12={"time":time1}
-            tab1.append(time12)
-            tab+=1
+
+            record["_time"].replace(microsecond=0)
+
+            time = {
+                "time": record["_time"]
+            }
+
+            tab1.append(time)
+
+            x += 1
 
 
-    for table2 in tables2:
-        for record2 in table2.records:
-            #↓ debug affichage du format des données (json) ↓
-            # print(record2)
-            #↑ debug affichage des données de la table Status ↑
-            # ↓ debug affichage des données de la table Compteur ↓
-            # print(record2["_time"])
-            # print(record2["_measurement"])
-            # print(record2["_value"])
-            #↑ debug affichage des données de la table Compteur ↑
+    for element in second_table:
+        for record in element.records:
+            if debug:
+                print("[DEBUG](Status):", record)
+                print(f"[DEBUG](Compteur): `_time`: {record['_time']}, `_measurement`: {record['_measurement']}, `_value`: {record['_value']}")
+
             #opération pour récupérer les données de la table Compteur
-            seconde={"Compteur":record2["_measurement"], "Secondes":record2["_value"]}
-            Seconde.append(seconde)
-            time2=record2["_time"].replace(microsecond=0)
-            time22={"time":time2}
-            tab2.append(time22)
 
-    # ↓ debug voir les valeurs de tab1 et tab2 (datetime) ↓
-    # print(tab1)
-    # print(tab2)
-    # ↑ debug voir les valeurs de tab1 et tab2 (datetime) ↑
+            seconde = {
+                "Compteur": record["_measurement"],
+                "Secondes": record["_value"]
+            }
+
+            Seconde.append(seconde)
+            record["_time"].replace(microsecond=0)
+
+            time = {
+                "time": record["_time"]
+                }
+
+            tab2.append(time)
+
+
+    if debug:
+        print("Tableau 1 et 2:", tab1, tab2)
 
     #  comparaison des données temps de la table Status et Compteur
-    for v in range(tab):
-        # print(tab1[v],tab2[v])
+    for v in range(x):
+        if debug:
+            print(f"Value table 1 & table 2:", tab1[v], tab2[v])
+
         # si les données sont identiques affichage de ok et des données de la table Status et Compteur
         if tab1[v]==tab2[v]:
             print("ok")
-            print(Status[v]["status"],Seconde[v]["Compteur"])
-            print(Status[v]["value"],Seconde[v]["Secondes"])
-
+            print(Status[v]["status"], Seconde[v]["Compteur"])
+            print(Status[v]["value"], Seconde[v]["Secondes"])
         else:
             print("pas ok")
 
