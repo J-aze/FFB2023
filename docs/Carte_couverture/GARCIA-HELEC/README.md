@@ -1,5 +1,10 @@
 # Couverture des Gateways LoRa présentes à l'IUT
 
+## Définition
+
+RSSI = Received Signal Strength Indication : mesure importante pour les passerelles et les périphériques finaux. RSSI est mesuré en dBm et sa valeur est une forme négative : plus la valeur RSSI est proche de zéro, plus le signal reçu est fort.
+SNR = (Signal-to-Noise Ratio) : souvent écrit comme S/N, c'est le rapport entre la puissance du signal reçu et le bruit de fond. Le SNR est couramment utilisé pour déterminer la qualité du signal reçu.
+
 __Légende :__
 
 La localisation correspond au Point X sur la carte.
@@ -18,6 +23,7 @@ B204|eui-0080000000021b9e
 SPACE LAB|eui-0080000000081ba1
 RDC|eui-0080000000021ba4
 PARKING|eui-0080000000085ca1
+
 En théorie les gateway sont bien identifiées MAIS nous n'y avons pas d'accès direct donc c'est seulement une supposition avec nos mesures et en connaissant vaguement leur emplacement au sein de l'IUT.
 
 Localisation|Gateway|RSSI (dBm)|SNR|
