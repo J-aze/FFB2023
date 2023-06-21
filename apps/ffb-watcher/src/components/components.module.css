@@ -1,0 +1,38 @@
+.AppHeader {
+  background-color: #282c34;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.HeaderLinks {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.HeaderLinks a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.HeaderLinks a:hover {
+  color: #61dafb;
+  text-decoration: underline;
+}
+
+.HeaderTitle {
+  margin: 0 10px;
+  padding: 5px;
+  font-size: 38px;
+  display: flex;
+  flex-direction: row;
+  min-width: 5vh;
+}
