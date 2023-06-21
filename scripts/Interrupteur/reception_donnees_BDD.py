@@ -14,8 +14,8 @@ def get_data():
     query2= f"""from(bucket: "Interrupteur")|> range(start: -{time})|> filter(fn: (r) => r._measurement == "Compteur")"""
 
     #  récupération des données de la table Status et Compteur
-    tables = query_api.query(query, org="IUTdebeziers")
-    tables2 = query_api.query(query2, org="IUTdebeziers")
+    tables = query_api.query(query, org=INFUXDB_ORG)
+    tables2 = query_api.query(query2, org=INFLUXDB_ORG)
     return tables, tables2
 
 
