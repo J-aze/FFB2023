@@ -13,3 +13,25 @@ Quand vous travaillez pour une issue / de votre coté, veuillez faire une branch
 puis créez une Pull Request afin que quelqu'un donne son avis avant de combiner votre
 travail dans la branche main.
 
+## FFB-Watcher
+
+> Quand le Festival du Fantastique de Béziers rencontre
+> la SAE-24 du département R&T.
+
+```mermaid
+flowchart TB
+
+SAE-24 --> FFB-Watcher
+FFB --> FFB-Watcher
+```
+
+```mermaid
+flowchart LR
+
+debut --> système
+système --> fin
+```
+
+### Infrastructure du projet FFB-Watcher
+
+![infrastructure-ffb-watcher](./src/ffb-watcher-infra.drawio.svg)
