@@ -9,13 +9,7 @@ export default function Header(){
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link" href="#RFID-Card">RFID Card</a>
-              </li>
-              <li className="nav-item">
                 <a className="nav-link" href="#Profile-Setup">Profile</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link" href="#Tombola-Setup">Tombola</a>
               </li>
             </ul>
           </div>

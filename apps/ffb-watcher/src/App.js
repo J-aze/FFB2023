@@ -1,5 +1,5 @@
 import Header from "./components/AppHeader";
-import { TestQuery } from "./components/influxdb";
+import ProfileContent from "./components/ProfileContent";
 import './App.css';
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
     <div className="App">
       <Header />
       <main>
-        <TestQuery />
+        <ProfileContent />
       </main>
     </div>
   );
