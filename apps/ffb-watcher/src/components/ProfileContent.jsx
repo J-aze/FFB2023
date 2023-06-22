@@ -62,7 +62,7 @@ function ProfileForm(){
           <span className="fs-4">La Provenance: </span>
           <select {...register("where-from", {required: true})} className="btn dropdown-toggle">
             <option value={null}>Select...</option>
-            <option value={"0-20"}>De Béziers et ses alentours (20+ km)</option>
+            <option value={"0-20"}>De Béziers et ses alentours (-20 km)</option>
             <option value={"20-50"}>De 20 à 50 km</option>
             <option value={"50+"}>50+ km</option>
           </select>
