@@ -17,10 +17,10 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
 ESP32Time rtc(0); // Offset already configured when we got the NTP value
 
 // Wifi Setup
-const char* ssid = "TestMe";
-const char* pwd = "TestMeISaid";
+const char* ssid = "test-ffbrfid";
+const char* pwd = "test-me-rfid";
 const char* wifiHostname = "ESP32-Accueil";
-const uint TCPPort = 42;
+const uint TCPPort = 3000;
 IPAddress nodeIP;
 IPAddress RouterIP; 
 
@@ -80,14 +80,13 @@ void setup() {
   RouterIP = WiFi.gatewayIP();
 
   // Some Serial print to debug ^-^
-  Serial.println("\n Connected to the wifi network:");
-  Serial.println(ssid);
+  Serial.printf("\n Connected to the wifi network: %s \n", ssid);
   Serial.printf("Local ESP32 IP: %s, with an RSSI of %d and a gateway at %s\n", nodeIP.toString(), WiFi.RSSI(), RouterIP.toString());
 
   while (!Serial);                          // Do nothing if no serial port is opened (added for Arduinos based on ATMEGA32U4)
     SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN); // Init SPI bus
     mfrc522.PCD_Init();                     // Init MFRC522
-    delay(4);                               // Optional delay. Some board do need more time after init to be ready, see Readme
+    delay(5);                               // Optional delay. Some board do need more time after init to be ready, see Readme
     mfrc522.PCD_DumpVersionToSerial();      // Show details of PCD - MFRC522 Card Reader details
 
   // Check and retrieve the NTP value of the local network
@@ -109,7 +108,8 @@ void loop() {
 
   if (!client.connect(WiFi.gatewayIP(), TCPPort)) {
     // The client couldn't connect to the server
-    Serial.printf("We couldn't connect to the server: %s\n", RouterIP.toString());
+    Serial.printf("We couldn't connect to the server: %s, so we went offline for now.\n", RouterIP.toString());
+    printf("TEST-OFFLINE: %s \n");
   } else {
     // We could connect to the server
     const char* Profile = createProfile();
