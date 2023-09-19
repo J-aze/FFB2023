@@ -5,6 +5,8 @@
 #include <math.h> // Library of utils related to mathematical operations
 #include <string.h> // Library to deal with strings than char arrays
 #include <sstream> // Library to deal with creating formatted strings
+#include <ArduinoHttpClient.h> // Library to create HTTP GET Requests
+#include "ArduinoMqttClient.h" // Library to create MQTT GET Requests
 
 // These are the GPIO PINs connected to the RIFD sensor
 #define RST_PIN         26
@@ -17,12 +19,26 @@ MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance
 ESP32Time rtc(0); // Offset already configured when we got the NTP value
 
 // Wifi Setup
-const char* ssid = "test-ffbrfid";
-const char* pwd = "test-me-rfid";
+const char* ssid = "";
+const char* pwd = "";
 const char* wifiHostname = "ESP32-Accueil";
-const uint TCPPort = 3000;
+const uint TCPPort = 80;
 IPAddress nodeIP;
 IPAddress RouterIP; 
+bool isOffline = false;
+
+WiFiClient wifiClient;
+
+// HTTP Client
+const char* serverIP = "";
+const uint serverPort = 80;
+HttpClient webClient = HttpClient(wifiClient, serverIP, serverPort);
+
+// MQTT Client
+MqttClient mqttClient(wifiClient);
+const char broker[] = "";
+int        port     = 1883;
+const char topic[]  = "";
 
 // Return the Card UID
 // @return String
@@ -62,26 +78,48 @@ void setup() {
   // Initialize serial communications with the PC
   Serial.begin(115200);
 
-  // Set the Wifi connection
-  WiFi.mode(WIFI_STA);
-  WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
-  WiFi.setHostname(wifiHostname); // Set the hostname to be function-related
-  WiFi.begin(ssid, pwd);
-  Serial.println("\n Connecting to Wifi...");
 
-  // loop while the connection is being set up
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
+  if (!isOffline){
+    // Set the Wifi connection
+    WiFi.mode(WIFI_STA);
+    WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE, INADDR_NONE);
+    WiFi.setHostname(wifiHostname); // Set the hostname to be function-related
+    WiFi.begin(ssid, pwd);
+    Serial.println("\n Connecting to Wifi...");
+
+    // loop while the connection is being set up
+    while (WiFi.status() != WL_CONNECTED) {
+      delay(500);
+      Serial.print(".");
+    }
+
+    // Before any debug, let's set up some environment variables
+    nodeIP = WiFi.localIP();
+    RouterIP = WiFi.gatewayIP();
+
+    // Some Serial print to debug ^-^
+    Serial.printf("\n Connected to the wifi network: %s \n", ssid);
+    Serial.printf("Local ESP32 IP: %s, with an RSSI of %d and a gateway at %s\n", nodeIP.toString(), WiFi.RSSI(), RouterIP.toString());
+
+    // Check and retrieve the NTP value of the local network
+    // checkAndRetrieveLocalNTPValue();
+
+    // We're configuring the MQTT Client
+    if (!mqttClient.connect(broker, port)) {
+      Serial.printf("MQTT connection failed! Error code = %d \n", mqttClient.connectError());
+
+      while(1);
+    }
+    Serial.printf("We're connected to the MQTT broker!\n");
+    mqttClient.beginMessage(topic);
+    mqttClient.print("200: Connected");
+    mqttClient.endMessage();
+
+  } else {
+
+    Serial.println("We're offline!");
+
   }
-
-  // Before any debug, let's set up some environment variables
-  nodeIP = WiFi.localIP();
-  RouterIP = WiFi.gatewayIP();
-
-  // Some Serial print to debug ^-^
-  Serial.printf("\n Connected to the wifi network: %s \n", ssid);
-  Serial.printf("Local ESP32 IP: %s, with an RSSI of %d and a gateway at %s\n", nodeIP.toString(), WiFi.RSSI(), RouterIP.toString());
 
   while (!Serial);                          // Do nothing if no serial port is opened (added for Arduinos based on ATMEGA32U4)
     SPI.begin(SCK_PIN, MISO_PIN, MOSI_PIN); // Init SPI bus
@@ -89,8 +127,6 @@ void setup() {
     delay(5);                               // Optional delay. Some board do need more time after init to be ready, see Readme
     mfrc522.PCD_DumpVersionToSerial();      // Show details of PCD - MFRC522 Card Reader details
 
-  // Check and retrieve the NTP value of the local network
-  checkAndRetrieveLocalNTPValue();
 }
 
 
@@ -99,6 +135,7 @@ void loop() {
 
   // Reset the loop if no new card present on the sensor/reader. This saves the entire process when idle.
   if ( ! mfrc522.PICC_IsNewCardPresent()) {
+    // Serial.printf("I'm waiting for a card!\n");
     return;
   }
   // Select one of the cards
@@ -106,18 +143,41 @@ void loop() {
     return;
   }
 
-  if (!client.connect(WiFi.gatewayIP(), TCPPort)) {
-    // The client couldn't connect to the server
-    Serial.printf("We couldn't connect to the server: %s, so we went offline for now.\n", RouterIP.toString());
-    printf("TEST-OFFLINE: %s \n");
-  } else {
-    // We could connect to the server
-    const char* Profile = createProfile();
-    printf("TEST: %s \n", Profile);
-    client.printf("TEST: %s \n", Profile);
-  }
+  mqttClient.poll();
 
-  // createProfile();
+
+  if (!isOffline) {
+    Serial.println("I'm online, on the call!");
+
+    const char* value = getCardUID();
+    // const char* parameter = "cardID=";
+    // char query[30] = "/L?";
+
+    // strcat(query, parameter);
+    // strcat(query, value);
+
+    // // Serial.printf("Making the GET Request at %s ... \n", query);
+    // // webClient.get(query);
+
+    // // After sending the GET Request, we're waiting for the response code
+    // int statusCode = webClient.responseStatusCode();
+
+    // // We're printing the response code and body
+    // Serial.printf("Response:\n\t- Status code: %d\n", statusCode);
+
+    Serial.printf("The card is: %s\n", value);
+
+    mqttClient.beginMessage(topic);
+    mqttClient.print(value);
+    mqttClient.endMessage();
+    Serial.println("MQTT Message sent!");
+  } else {
+    Serial.println("I'm offline, but still on the call!");
+
+    const char* uid = createProfile();
+
+    printf("TEST-OFFLINE: %s \n", uid);
+  }
 
 }
 
@@ -148,9 +208,15 @@ const char* createProfile(){
   std::string cardUID = ReturnCardUID(&(mfrc522.uid));
 
   currentTime = std::to_string(currentHour) + ":" + std::to_string(currentMinute) + ":" + std::to_string(currentSecond) + ":" + std::to_string(currentMillisecond);
-  result = currentTime + " | " + cardUID;
+  result = cardUID + " | " + currentTime;
 
   return result.c_str();
+}
+
+const char* getCardUID(){
+  std::string cardUID = ReturnCardUID(&(mfrc522.uid));
+
+  return cardUID.c_str();
 }
 
 // End Profile related function area
