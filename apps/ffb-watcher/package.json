@@ -3,25 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@influxdata/influxdb-client": "^1.33.2",
-    "@influxdata/influxdb-client-apis": "^1.33.2",
-    "@nivo/core": "^0.83.0",
-    "@nivo/line": "^0.83.0",
-    "@nivo/scatterplot": "^0.83.0",
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "bootstrap": "^5.3.0",
-    "chart.js": "^4.3.0",
+    "mqtt": "^5.0.5",
+    "open": "^9.1.0",
     "react": "^18.2.0",
-    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
-    "react-hook-form": "^7.45.0",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "url": "^0.11.3",
+    "web-vitals": "^2.1.4",
+    "webpack": "^5.88.2"
   },
   "scripts": {
-    "start": "PORT=4000 react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -43,8 +38,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "@types/node": "^20.3.1"
   }
 }
