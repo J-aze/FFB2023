@@ -26,14 +26,13 @@ export async function POST(request: Request) {
         writeApi.writePoint(rfidUID)
         writeApi.close().then(() => {
             console.log("Wrote data in InfluxDB for", res["rfidCard"])
-            return NextResponse.json({
-                message: "Hello World with a POST!",
-            });
         }).catch((err) => {
-            return NextResponse.json({
-                error: err
-            })
-        } )
+            console.log("Error:", err);
+        })
+
+        return NextResponse.json({
+            status: 200
+        });
     }
 }
 
