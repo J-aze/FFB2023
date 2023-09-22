@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { InfluxDB, Point } from "@influxdata/influxdb-client";
 import { url, token, org, bucket } from "../../../../env.mjs";
+import { number } from "yup";
 
 export async function POST(request: Request) {
   try {
@@ -30,7 +31,8 @@ export async function POST(request: Request) {
         var attributeValue = elem[key];
 
         if (attributeName != "rfidCard") {
-          rfidUID.stringField(attributeName, attributeValue);
+          let intValue = Number(attributeValue)
+          rfidUID.intField(attributeName, intValue);
         }
       }
     }

@@ -12,7 +12,7 @@ const clientId = 'mqttjs_' + Math.random().toString(16).substr(2, 8)
 // Then run this file in a separate console:
 // $ node websocket_sample.js
 //
-const host = 'ws://test.mosquitto.org:8080'
+const host = 'mqtt://test.mosquitto.org:1883'
 
 const fluxTopic = 'ffb-watcher/test';
 
@@ -55,6 +55,8 @@ client.on('message', (topic, message, packet) => {
             previousMessage = currentMessage;
             console.log('Received Message:= ' + currentMessage);
             open('http://localhost:3000/?cardID=' + currentMessage, 'firefox');
+
+            client.publish("ffb-watcher/return", "200: Received")
         }
     } else if (currentMessage != previousMessage && currentMessage == "200: Connected"){
         console.log('Received start message');

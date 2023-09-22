@@ -226,6 +226,7 @@ function ProfileForm(){
                     {userFormation} (db)
                   </span>
                 </option>
+                <option value={"DAEUB"}>DAEUB</option>
                 <option value={"TC"}>TC</option>
                 <option value={"RT"}>RT</option>
                 <option value={"MMI"}>MMI</option>
@@ -234,6 +235,7 @@ function ProfileForm(){
               </select>
             ): (
               <select {...register("formation", { required: true })} className="btn dropdown-toggle">
+                <option value={"DAEUB"}>DAEUB</option>
                 <option value={"RT"}>RT</option>
                 <option value={"MMI"}>MMI</option>
                 <option value={"ROB IA"}>ROB & IA</option>
