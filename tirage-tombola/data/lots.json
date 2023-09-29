@@ -1,0 +1,59 @@
+[
+  { "id": 1, "name": "mug ffb", "price": 5 },
+  {
+    "id": 2,
+    "name": "Nisi eiusmod laboris duis fugiat labore reprehenderit voluptate.",
+    "price": 12
+  },
+  {
+    "id": 3,
+    "name": "Ipsum consequat tempor qui Lorem veniam nisi amet cillum dolor dolore est.",
+    "price": 8
+  },
+  {
+    "id": 4,
+    "name": "Dolor deserunt laborum nostrud ipsum id velit sit nulla minim.",
+    "price": 35
+  },
+  {
+    "id": 5,
+    "name": "Incididunt ad minim enim aliqua do ad est qui.",
+    "price": 8
+  },
+  {
+    "id": 6,
+    "name": "Excepteur eiusmod commodo nostrud dolor proident aliqua.",
+    "price": 8.5
+  },
+  {
+    "id": 7,
+    "name": "Esse minim veniam consectetur nulla exercitation veniam occaecat fugiat proident exercitation reprehenderit.",
+    "price": 11
+  },
+  {
+    "id": 8,
+    "name": "recueil FFB2023 + mug FFB2023 + objet décoration en résine + ",
+    "price": 123
+  },
+  {
+    "id": 9,
+    "name": "Pariatur deserunt sit est excepteur esse adipisicing id laboris est cillum ea deserunt.",
+    "price": 43
+  },
+  {
+    "id": 10,
+    "name": "Nostrud reprehenderit aliqua nulla nisi officia voluptate id quis irure veniam nisi esse.",
+    "price": 22
+  },
+  {
+    "id": 11,
+    "name": "Ipsum mollit culpa cupidatat et ipsum magna ea voluptate.",
+    "price": 33
+  },
+  { "id": 12, "name": "Cupidatat nostrud exercitation non non.", "price": 18 },
+  {
+    "id": 13,
+    "name": "Deserunt commodo ut elit dolor minim exercitation veniam velit quis eu veniam culpa tempor.",
+    "price": 11
+  }
+]

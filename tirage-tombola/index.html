@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tombola de la 5e édition du Festival du Fantastique de Béziers - 7 octobre 2023</title>
+
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"> -->
+    <link rel="stylesheet" href="./css/css3.css">
+    <link rel="stylesheet" href="./css/reset.min.css">
+
+    <link href="./dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/word-cloud.css">
+
+
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+</head>
+
+<body>
+    <div class="container py-3">
+        <header>
+            <h1>Tombola de la 5e édition du Festival du Fantastique de Béziers - 7 octobre 2023</h1>
+        </header>
+        <main>
+            <div class="row row-cols-1 row-cols-md-2 mb-3 text-center">
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Lots</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-body" id="lots">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card mb-4 rounded-3 shadow-sm">
+                        <div class="card-header py-3">
+                            <h4 class="my-0 fw-normal">Participants</h4>
+                        </div>
+                        <div class="card-body">
+                            <!-- <div class="card-body" id="participants"></div>
+                            <div class="card-body" id="tickets"></div> -->
+                            <div class="card-body" id="stats"></div>
+                            <div id="word-cloud"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="row row-cols-1 row-cols-md-1 mb-3 text-center">
+                <button type="button" class="btn btn-secondary" id="current_lot" disabled>&nbsp;</button>
+                <div id="tombola_animation">&nbsp;</div>
+                <span>&nbsp;</span>
+                <button type="button" class="btn btn-primary" id="boutonTirage">Suivant</button>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+
+<script src='./js/jquery.min.js'></script>
+<script src='./js/jqcloud-1.0.4.js'></script>
+
+<script src="./dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="js/tombola.js"></script>
+<script src="js/display.js"></script>
+<script src="js/word-cloud.js"></script>
+
+</html>
