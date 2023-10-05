@@ -43,53 +43,21 @@ export default function ProfileContent(){
 }
 
 const queryApi = new InfluxDB({url, token}).getQueryApi(org);
-const fluxAsyncQuery = async (rfidUID: any, ageSetter: any, originSetter: any, isStudentSetter: any, formationSetter: any, nameSetter: any, surnameSetter: any) => {
+const fluxAsyncQuery = async (rfidUID: any, phoneSetter: any, emailSetter: any, nameSetter: any, surnameSetter: any) => {
 
   const fluxQuery = `from(bucket: "${bucket}")
-      |> range(start: -30d, stop: now())
+      |> range(start: -1d, stop: now())
       |> filter(fn: (r) => r["_measurement"] == "${rfidUID}")
       |> yield(name: "mean")`;
 
   console.log("We're creating a request to InfluxDB");
 
   for await (const {values, tableMeta} of queryApi.iterateRows(fluxQuery)) {
-      const o = tableMeta.toObject(values);
-      console.log("Received data:", o);
+    const o = tableMeta.toObject(values);
+    console.log("Received data:", o);
 
-      if (o._field === "group") {
+    if (o._field === ""){}
 
-        if (o.age != undefined) {
-          ageSetter(o.age);
-        }
-
-        if (o.origin != undefined) {
-          originSetter(o.origin);
-        }
-
-        if (o.student != undefined) {
-          o.student = "True" ? true : false
-          isStudentSetter(o.student)
-        }
-
-        if (o.name != undefined) {
-          nameSetter(o.name)
-        }
-        if (o.surname != undefined) {
-          surnameSetter(o.surname)
-        }
-      }
-
-      if (o._field === "formation") {
-        if (o._value != undefined) {
-          formationSetter(o._value)
-        }
-        if (o.name != undefined) {
-          nameSetter(o.name)
-        }
-        if (o.surname != undefined) {
-          surnameSetter(o.surname)
-        }
-      }
   }
 }
 
@@ -98,22 +66,18 @@ function ProfileForm(){
   const [formData, setFormData] = useState();
 
   // User-specific data
-  const [userAge, setUserAge] = useState(null);
-  const [userOrigin, setUserOrigin] = useState(null);
-  const [isStudent, setIsStudent] = useState(null);
   const [userName, setUserName] = useState(null);
   const [userSurname, setUserSurname] = useState(null);
-  const [userFormation, setUserFormation] = useState(null);
-
-  // Modifying data
-  const [changeUsername, setChangeUsername] = useState(false);
-  const [changeUserSurname, setChangeUserSurname] = useState(false);
+  const [userPhoneNumber, setUserPhoneNumber] = useState(null);
+  const [userEmail, setUserEmail] = useState(null);
 
   // URL Query
   const searchParams = useSearchParams();
   const rfidUID = searchParams.get("cardID");
 
   function onSubmit(formDataToBe: any){
+
+    console.log("Sent data:", JSON.stringify(formDataToBe))
 
     return fetch(
       "http://localhost:3000/api/write-flux",
@@ -137,57 +101,42 @@ function ProfileForm(){
     })
   }
 
-
-  if (rfidUID != null) {
-    if (userAge === null || userName === null) {
-      fluxAsyncQuery(rfidUID, setUserAge, setUserOrigin, setIsStudent, setUserFormation, setUserName, setUserSurname);
-    }
-  }
-
-
   return(
     <>
+      <div className="my-2 mx-2 flex flex-column align-self-center justify-content-start flex-grow-1 flex-fill">
+        <span className="fs-4">Card ID: </span>
+        {rfidUID ? (
+          <select {...register("rfidCard", { required: true })} className="btn dropdown-toggle">
+            <option value={`${rfidUID}`}>{rfidUID}</option>
+          </select>
+        ) : (
+          <span className="fs-4 fw-bold text-danger">N/A</span>
+        )}
+      </div>
       <div id="profile-content-form-holder" className="flex flex-column justify-content-start align-items-center align-self-center">
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="my-2 mx-2 flex flex-column align-self-center justify-content-start flex-grow-1 flex-fill">
-            <span className="fs-4">RFID-UID: </span>
-            <select {...register("rfidCard", {required: true})} className="btn dropdown-toggle">
-              <option value={`${rfidUID}`}>{rfidUID}</option>
-            </select>
-          </div>
-
           <div className="mx-2 my-2">
             <span>
-              <span className="fs-4">Nom</span>
-              {
-                !changeUserSurname && (
-                  <>
-                    {userSurname ? (
-                      <select {...register("surname", { required: true })} className="btn dropdown-toggle" value={`${userSurname}`} autoFocus>
-                        <option value={`${userSurname}`}>
-                          <span>
-                            {userSurname} (db)
-                          </span>
-                        </option>
-                        <option value={`${null}`}>
-                          Other
-                        </option>
-                      </select>
-                    ) : (
-                      <input {...register("surname", { required: true })} className="btn dropdown-toggle" style={{ border: "0.5px solid black" }} />
-                    )}
-                  </>
-                )
-              }
-              {changeUserSurname && (
-                <input {...register("name", { required: true })} className="btn dropdown-toggle" style={{ border: "0.5px solid black" }} />
-              )}
-            </span>
+              <span className="fs-4 m-lg-1">Nom</span>
+              {userSurname ? (
+                <select {...register("surname", { required: true })} className="btn dropdown-toggle" value={`${userSurname}`} autoFocus>
+                  <option value={`${userSurname}`}>
+                    <span>
+                      {userSurname} (db)
+                    </span>
+                  </option>
+                  <option value={`${null}`}>
+                    Other
+                  </option>
+                </select>
+              ) : (
+                <input {...register("surname", { required: true })} className="btn dropdown-toggle" style={{ border: "0.5px solid black" }} />
+              )}            </span>
             <span>
-              <span className="fs-4">Prénom</span>
+              <span className="fs-4 m-lg-1">Prénom</span>
               {userName ? (
-                <select {...register("name", { required: true })} className="btn dropdown-toggle" value={userName}>
+                <select {...register("name", { required: true })} className="btn dropdown-toggle" defaultValue={userName}>
                   <option value={userName}>
                     <span>
                       {userName} (db)
@@ -197,52 +146,43 @@ function ProfileForm(){
               ) : (
                 <input {...register("name", { required: true })} className="btn dropdown-toggle" style={{ border: "0.5px solid black" }} />
               )}
-              {changeUsername && (
-                <input {...register("name", { required: true })} className="btn dropdown-toggle" style={{ border: "0.5px solid black" }} />
-              )}
             </span>
-            {/* <button onClick={() => {
-              if (changeUsername) {
-                setChangeUsername(false)
-              } else {
-                setChangeUsername(true)
-              }
-            }}>Change User name</button>
-            <button onClick={() => {
-              if (changeUserSurname) {
-                setChangeUserSurname(false)
-              } else {
-                setChangeUserSurname(true)
-              }
-            }}>Change User surname</button> */}
           </div>
-
           <div className="mx-2 my-2">
-            <span className="fs-4">La formation: </span>
-            {userFormation ? (
-              <select {...register("formation", {required: true})} className="btn dropdown-toggle">
-                <option value={userFormation} selected>
+            <span className="fs-4 m-lg-1">Numéro de Téléphone</span>
+            {userPhoneNumber ? (
+              <select {...register("phoneNumber", {required: true})} className="btn dropdown-toggle" defaultValue={userPhoneNumber}>
+                <option value={userPhoneNumber}>
                   <span>
-                    {userFormation} (db)
+                    {userPhoneNumber} (db)
                   </span>
                 </option>
-                <option value={"DAEUB"}>DAEUB</option>
-                <option value={"TC"}>TC</option>
-                <option value={"RT"}>RT</option>
-                <option value={"MMI"}>MMI</option>
-                <option value={"ROB IA"}>ROB & IA</option>
-                <option value={"CS"}>CS</option>
               </select>
             ): (
-              <select {...register("formation", { required: true })} className="btn dropdown-toggle">
-                <option value={"DAEUB"}>DAEUB</option>
-                <option value={"RT"}>RT</option>
-                <option value={"MMI"}>MMI</option>
-                <option value={"ROB IA"}>ROB & IA</option>
-                <option value={"CS"}>CS</option>
-                <option value={"TC"}>TC</option>
-              </select>
+              <input {...register("phoneNumber", {required: true})} className="btn dropdown-toggle" style={{border: "0.5px solid black"}} />
             )}
+          </div>
+          <div className="mx-2 my-2">
+            <span className="fs-4 m-lg-1">Email</span>
+            {userEmail ? (
+              <select {...register("email", { required: true })} className="btn dropdown-toggle" defaultValue={userEmail}>
+                <option value={userEmail}>
+                  <span>
+                    {userEmail} (db)
+                  </span>
+                </option>
+              </select>
+            ): (
+              <input {...register("email", {required: true})} className="btn dropdown-toggle" style={{border: "0.5px solid black"}} />
+            )}
+          </div>
+
+          {/* This should be hidden to the user, we're using this input to set the correct bucket */}
+          <div className="mx-2 my-2 d-none">
+            <span className="fs-4 m-lg-1 text-danger">This should not appear</span>
+            <select {...register("topic", {required: true})} defaultValue={"tombola"}>
+              <option value="tombola">tombola</option>
+            </select>
           </div>
 
           <div className="mx-2 my-2 p-2">
@@ -256,8 +196,8 @@ function ProfileForm(){
       <div className="my-2 mx-2 flex flex-column justify-content-start align-items-center align-self-center card card-body bg-info-subtle border-info-subtle">
         <h5 className="text-start">Recap:</h5> <br />
 
-        We&apos;re currently running the {userAge ? 'Festival of Fantastic of Béziers' : '1st Test during the \'Forum Etudiant\''}. <br />
-        We have the card of {userSurname} {userName}, a {userFormation} student.
+        We&apos;re currently running {userPhoneNumber ? 'the Festival of Fantastic of Béziers' : 'nothing'}. <br />
+        We have the card of {userSurname} {userName}.
       </div>
     </>
   )

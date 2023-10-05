@@ -26,6 +26,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+env.mjs
 
 # vercel
 .vercel
@@ -33,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+package-lock.json
+apps/ffb-server/env.mjs
+apps/ffb-server/package-lock.json

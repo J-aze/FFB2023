@@ -9,6 +9,7 @@ export async function POST(request: Request) {
         const curr_res = res.entries().next();
         console.log("Incoming request:", res);
         return NextResponse.json({
+            status: 200,
             message: "Hello World with a POST!",
             postbody: curr_res,
         });
@@ -16,12 +17,13 @@ export async function POST(request: Request) {
         // If the request is a JSON object
         const res = await request.json();
 
-
         const writeApi = new InfluxDB({ url, token }).getWriteApi(org, bucket);
         const rfidUID = new Point(res["rfidCard"])
-            .stringField("formation", res["formation"])
+            .stringField("ffb-watcher", res["topic"])
             .tag("name", res["name"])
             .tag("surname", res["surname"])
+            .tag("phoneNumber", res["phoneNumber"])
+            .tag("email", res["email"])
 
         writeApi.writePoint(rfidUID)
         writeApi.close().then(() => {
