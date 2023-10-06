@@ -115,13 +115,7 @@ function ProfileForm() {
                 </select>
               </div>
               <label className="mr-2 p-2">Number of Tickets: </label>
-              <select name="numberOfTickets">
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i =>
-                  <option key={i} value={`${i}`} onClick={() => {
-                    setNumberOfTickets(i);
-                  }}>{i}</option>
-                )}
-              </select>
+              <input name="numberOfTickets" type="number" />
               <button type="button" className="btn btn-success m-lg-2 mr-1 p-2" onClick={() => {
 
                 const tempTickets = [];
@@ -140,15 +134,16 @@ function ProfileForm() {
             <div className="list-group-item">
               <h5 className="card-title">Ticket {i + 1}</h5>
               <div className="form-row">
-                <div className="form-group col-6">
-                  <label>Stand</label>
-                  <select {...register(`tickets-${i}`, { required: true })} className="btn dropdown-toggle border-black m-lg-1">
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(j => (
-                      <option key={j} className="btn dropdown-toggle border-black" value={j} onSelect={() => {
+                <div className="form-group col-8">
+                  <label className="m-lg-1">Stand</label>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40].map(j => (
+                    <span key={j} className="m-lg-2">
+                      <label htmlFor={`${j}`}> {j}</label>
+                      <input type={"radio"} key={j} className="btn dropdown-toggle border-black fs-2 m-lg-1" name={`ticket-${i}`} value={j} onSelect={() => {
                         console.log("Selected", j);
-                      }}>T: {j}</option>
-                    ))}
-                  </select>
+                      }} />
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>

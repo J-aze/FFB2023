@@ -56,7 +56,23 @@ const fluxAsyncQuery = async (rfidUID: any, phoneSetter: any, emailSetter: any, 
     const o = tableMeta.toObject(values);
     console.log("Received data:", o);
 
-    if (o._field === ""){}
+    if (o._field === "tombola"){
+      if (o.name != undefined) {
+        nameSetter(o.name);
+      }
+
+      if (o.surname != undefined) {
+        surnameSetter(o.surname);
+      }
+
+      if (o.email != undefined) {
+        emailSetter(o.email);
+      }
+
+      if (o.phoneNumber != undefined) {
+        phoneSetter(o.phoneNumber);
+      }
+    }
 
   }
 }
@@ -99,6 +115,12 @@ function ProfileForm(){
     }).catch(err => {
       console.log("An error occured while sending the data:", err);
     })
+  }
+
+  if (rfidUID != null) {
+    if (userEmail === null) {
+      fluxAsyncQuery(rfidUID, setUserPhoneNumber, setUserEmail, setUserName, setUserSurname);
+    }
   }
 
   return(

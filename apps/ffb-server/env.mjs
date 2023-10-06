@@ -1,16 +1,10 @@
 /** InfluxDB v2 URL */
-const url = process.env["INFLUX_URL"] || "http://51.158.107.83:8086";
+const url = process.env["INFLUX_URL"] || "https://influxffb.iutbeziers.fr";
 /** InfluxDB authorization token */
-const token =
-  process.env["INFLUX_TOKEN"] || "n_0JZECIMfgJbEUUsipzlEXneh7cZP1hem_84-y2QCgNzPEKKKD4AsdZGW1QG7nZUDhy2X08rGR5tavaPdTTsg==";
+const token = process.env["INFLUX_TOKEN"] || "sUiDEZcwHpYTFRxRC7QmvabBTgeDVYNp87tyuj5Q28EuMBUWhWGb0tjOTeoDq3tWx4hHi8TVC7hOx4PA_Vx_6A==";
 /** Organization within InfluxDB  */
-const org = process.env["INFLUX_ORG"] || "IUTdebeziers";
+const org = process.env["INFLUX_ORG"] || "FFB2023";
 /**InfluxDB bucket used in examples  */
-const bucket = "forum-etudiants-21-09-2023";
-// ONLY onboarding example
-/**InfluxDB user  */
-const username = "FFBInflux";
-/**InfluxDB password  */
-const password = "F!2420@RTLove";
+const bucket = "FFB2023";
 
-export { url, token, org, bucket, username, password };
+export { url, token, org, bucket };
