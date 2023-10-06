@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { InfluxDB, Point } from "@influxdata/influxdb-client";
 import { url, token, org, bucket } from "../../../../env.mjs";
-import { number } from "yup";
 
 export async function POST(request: Request) {
   try {
@@ -19,7 +18,9 @@ export async function POST(request: Request) {
 
     console.log("Message:", res)
 
-    const writeApi = new InfluxDB({ url, token }).getWriteApi(org, bucket);
+    const writeApi = new InfluxDB({ url, token, transportOptions: {
+      rejectUnauthorized: false
+    } }).getWriteApi(org, bucket);
     const rfidUID = new Point(res["rfidCard"])
 
     const jsonObj = [res];

@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup'; import { useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import { InfluxDB, Point } from '@influxdata/influxdb-client';
 import { url, token, org, bucket } from '../../../env.mjs';
 
@@ -81,7 +81,7 @@ function ProfileForm() {
     ).then(response => {
       if (response.status >= 200 && response.status < 300) {
         console.log(response);
-        // window.location.reload();
+        window.location.reload();
         return response;
       } else {
         console.log("Uh Oh! Something happened!, status:", response.status);
@@ -99,29 +99,44 @@ function ProfileForm() {
   }
 
   const [ticketsNumber, setTicketsNumber] = useState(Array<number>);
-  const [numberOfTickets, setNumberOfTickets] = useState(0);
+  const [numberOfTickets, setNumberOfTickets] = useState<number|null>(null);
 
+
+  const onNumberChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // In general, use Number.isNaN over global isNaN as isNaN will coerce the value to a number first
+    // which likely isn't desired
+    const value = !Number.isNaN(e.target.valueAsNumber) ? e.target.valueAsNumber : null;
+
+    setNumberOfTickets(value);
+  }
 
   return (
     <div id="profile-content-form-holder" className="flex flex-column justify-content-start align-items-center align-self-center">
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="card-body border-bottom">
+          {rfidUID ? (
+            <select {...register("rfidCard", { required: true })} className="btn dropdown-toggle">
+              <option value={`${rfidUID}`}>{rfidUID}</option>
+            </select>
+          ) : (
+            <span className="fs-4 fw-bold text-danger">N/A</span>
+          )}
           <div className="form-row">
             <div className="form-group">
-              <div className="my-2 mx-2 flex flex-column align-self-center justify-content-start flex-grow-1 flex-fill">
-                <span className="fs-4">RFID-UID: </span>
-                <select {...register("rfidCard", { required: true })} className="btn dropdown-toggle">
-                  <option value={`${rfidUID}`}>{rfidUID}</option>
-                </select>
-              </div>
-              <label className="mr-2 p-2">Number of Tickets: </label>
-              <input name="numberOfTickets" type="number" />
+              <label className="mr-2 p-2 fs-4">Number of Tickets: </label>
+              <input name="numberOfTickets" type="number" placeholder={"Indicate the number of tickets"} min={1} max={40} className="btn dropdown-toggle fs-5" style={{border: "0.5px solid black"}} value={numberOfTickets ? numberOfTickets : ""} onChange={onNumberChange} />
               <button type="button" className="btn btn-success m-lg-2 mr-1 p-2" onClick={() => {
 
                 const tempTickets = [];
 
-                for (let i = 0; i < numberOfTickets; i++) {
-                  tempTickets.push(i)
+                console.log("Tickets:", numberOfTickets)
+
+                numberOfTickets ? numberOfTickets : setNumberOfTickets(0)
+
+                if (numberOfTickets) {
+                  for (let i = 0; i < numberOfTickets; i++) {
+                    tempTickets.push(i)
+                  }
                 }
 
                 setTicketsNumber(tempTickets);
@@ -138,8 +153,8 @@ function ProfileForm() {
                   <label className="m-lg-1">Stand</label>
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40].map(j => (
                     <span key={j} className="m-lg-2">
-                      <label htmlFor={`${j}`}> {j}</label>
-                      <input type={"radio"} key={j} className="btn dropdown-toggle border-black fs-2 m-lg-1" name={`ticket-${i}`} value={j} onSelect={() => {
+                      <label htmlFor={`${j}`}> {j} </label>
+                      <input {...register(`tickets-${i}`, {required: true})} type={"radio"} key={j} className="btn dropdown-toggle border-black fs-2 m-lg-1" name={`tickets-${i}`} value={`${j}`} onSelect={() => {
                         console.log("Selected", j);
                       }} />
                     </span>

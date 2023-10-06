@@ -17,7 +17,9 @@ export async function POST(request: Request) {
         // If the request is a JSON object
         const res = await request.json();
 
-        const writeApi = new InfluxDB({ url, token }).getWriteApi(org, bucket);
+        const writeApi = new InfluxDB({ url, token, transportOptions: {
+            rejectUnauthorized: false
+        }}).getWriteApi(org, bucket);
         const rfidUID = new Point(res["rfidCard"])
             .stringField("ffb-watcher", res["topic"])
             .tag("name", res["name"])
@@ -27,7 +29,7 @@ export async function POST(request: Request) {
 
         writeApi.writePoint(rfidUID)
         writeApi.close().then(() => {
-            console.log("Wrote data in InfluxDB for", res["rfidCard"])
+            console.log(res["rfidCard"] ? `Wrote data in InfluxDB for ${res["rfidCard"]}`: `Didn't wrote data in InfluxDB for ${res["rfidCard"]}`)
         }).catch((err) => {
             console.log("Error:", err);
         })

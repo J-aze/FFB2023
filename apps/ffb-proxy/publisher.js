@@ -43,27 +43,7 @@ client.on('error', (err) => {
 
 client.on('connect', () => {
   console.log('client connected:' + clientId)
-  client.subscribe(fluxTopic, { qos: 0 })
-})
-
-let previousMessage = "";
-
-client.on('message', (topic, message, packet) => {
-    let currentMessage = message.toString();
-    if (currentMessage != previousMessage && currentMessage != "200: Connected"){
-        if (currentMessage != "") {
-            previousMessage = currentMessage;
-            console.log('Received Message:= ' + currentMessage);
-            open('http://localhost:3000/?cardID=' + currentMessage, 'firefox');
-
-            client.publish("ffb-watcher/return", "200: Received")
-        }
-    } else if (currentMessage != previousMessage && currentMessage == "200: Connected"){
-        console.log('Received start message');
-        open('http://localhost:3000/?status=Connected', 'firefox');
-    } else {
-        console.log("Message Ignored: " + currentMessage + `, because '${currentMessage}' != '${previousMessage}' => ${currentMessage != previousMessage}!`);
-    }
+  client.publish(fluxTopic, "000000", { qos: 0 })
 })
 
 client.on('close', () => {

@@ -56,7 +56,7 @@ const fluxAsyncQuery = async (rfidUID: any, phoneSetter: any, emailSetter: any, 
     const o = tableMeta.toObject(values);
     console.log("Received data:", o);
 
-    if (o._field === "tombola"){
+    if (o._field === "ffb-watcher"){
       if (o.name != undefined) {
         nameSetter(o.name);
       }
