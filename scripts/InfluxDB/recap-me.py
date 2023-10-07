@@ -10,6 +10,7 @@ token = "rtj6VYUdKsywIeO-92wufM-RoMLXOly-vMZEdhoRHtLd9ecMsdYpeDzKTn_VNRUt4Q1-CMh
 url = "https://influxffb.iutbeziers.fr"
 
 export_path = "./export"
+### Those are both duplicates, errors and my own card.
 to_ignore_by_email = ["killia.peyraux@gmail.com", "souris-noir@live.fr", "alexis.opolka@proton.me"]
 
 client = influxdb_client.InfluxDBClient(
