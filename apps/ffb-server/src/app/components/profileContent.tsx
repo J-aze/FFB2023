@@ -96,7 +96,7 @@ function ProfileForm(){
     console.log("Sent data:", JSON.stringify(formDataToBe))
 
     return fetch(
-      "http://localhost:3000/api/write-flux",
+      "http://10.255.255.223:3000/api/write-flux",
       {
         method: "POST",
         body: JSON.stringify(formDataToBe),
