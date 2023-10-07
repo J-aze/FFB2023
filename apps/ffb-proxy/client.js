@@ -53,14 +53,17 @@ client.on('message', (topic, message, packet) => {
     if (currentMessage != previousMessage && currentMessage != "200: Connected"){
         if (currentMessage != "") {
             previousMessage = currentMessage;
+            setTimeout(() => {
+              previousMessage = ""
+            }, 3000)
             console.log('Received Message:= ' + currentMessage);
-            open('http://localhost:3000/?cardID=' + currentMessage, 'firefox');
+            open('http://10.255.255.223:3000/?cardID=' + currentMessage, 'firefox');
 
             client.publish("ffb-watcher/return", "200: Received")
         }
     } else if (currentMessage != previousMessage && currentMessage == "200: Connected"){
         console.log('Received start message');
-        open('http://localhost:3000/?status=Connected', 'firefox');
+        open('http://10.255.255.223:3000/?status=Connected', 'firefox');
     } else {
         console.log("Message Ignored: " + currentMessage + `, because '${currentMessage}' != '${previousMessage}' => ${currentMessage != previousMessage}!`);
     }
