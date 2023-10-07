@@ -8,3 +8,7 @@ scripts/RFID/__pycache__/
 apps/ffb-server/package-lock.json
 apps/ffb-server/env.mjs
 *.mjs
+
+scripts/InfluxDB.zip
+
+scripts/dockers/whereami.sh
