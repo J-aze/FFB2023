@@ -70,7 +70,7 @@ function ProfileForm() {
     console.log(formDataToBe)
 
     return fetch(
-      "http://localhost:3000/api/add-tickets-flux",
+      "http://10.255.255.223:3000/api/add-tickets-flux",
       {
         method: "POST",
         body: JSON.stringify(formDataToBe),
