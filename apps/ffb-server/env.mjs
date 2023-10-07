@@ -5,6 +5,6 @@ const token = process.env["INFLUX_TOKEN"] || "j9PUMgfFZPkUhSwqjWvh2TAqrBJZ9bZ2-C
 /** Organization within InfluxDB  */
 const org = process.env["INFLUX_ORG"] || "FFB2023";
 /**InfluxDB bucket used in examples  */
-const bucket = "test-ffb-2023";
+const bucket = "ffb-2023";
 
 export { url, token, org, bucket };
