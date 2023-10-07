@@ -1,0 +1,16 @@
+{
+    "name": "ffb-proxy",
+    "version": "1.0.0",
+    "description": "This is the proxy used to catch the MQTT packets and opening a web browser tab with the retrieved data.",
+    "main": "client.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "alexis-opolka",
+    "license": "MIT",
+    "dependencies": {
+        "mqtt": "^5.0.5",
+        "open": "^9.1.0"
+    }
+}

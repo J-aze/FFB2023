@@ -1,0 +1,14 @@
+
+scripts/Interrupteur/it.txt
+
+__pycache__/
+interface_grafique/node_modules/
+scripts/RFID/__pycache__/
+
+apps/ffb-server/package-lock.json
+apps/ffb-server/env.mjs
+*.mjs
+
+scripts/InfluxDB.zip
+
+scripts/dockers/whereami.sh
